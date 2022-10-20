@@ -1,5 +1,5 @@
 export type ScreenNav = {
-    SignIn: undefined;
+    SignUp: undefined;
     LogIn: undefined;
     HomeScreen: undefined;
 }

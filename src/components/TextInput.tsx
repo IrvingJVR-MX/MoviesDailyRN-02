@@ -9,6 +9,11 @@ export default function TextInput({ errorText, description, ...props }) {
       <Input
         style={styles.input}
         selectionColor={theme.colors.primary}
+        outlineColor={theme.colors.primary}
+        activeOutlineColor ={theme.colors.secondary}
+        placeholderTextColor= {theme.colors.primary}
+        activeUnderlineColor = {theme.colors.primary}
+        underlineColorAndroid = {theme.colors.primary}
         underlineColor="transparent"
         mode="outlined"
         {...props}

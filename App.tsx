@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import HomeScreen from './src/pages/HomeScreen';
 import Login from './src/pages/Login';
+import SignUp from './src/pages/SignUp'
 import { ScreenNav } from './src/utils/Types';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -39,8 +39,10 @@ export default function App() {
    //<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} onLayout={onLayoutRootView}>
      <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="LogIn" component={Login} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen options={{headerShown:false}} name="LogIn" component={Login} />
+          <Stack.Screen options={{headerShown:false}} name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen options={{headerShown:false}} name="SignUp" component={SignUp} />
+
         </Stack.Navigator>
     </NavigationContainer>
     //</View>
