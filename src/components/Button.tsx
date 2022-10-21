@@ -18,7 +18,7 @@ export default function Button({ mode,logo, text, ...props }) {
 
 const styles = StyleSheet.create({
   button: {
-    width: '100%',
+    width: '85%',
     marginVertical: 10,
     paddingVertical: 2,
     backgroundColor: theme.colors.primary

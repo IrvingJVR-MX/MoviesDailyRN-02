@@ -1,19 +1,15 @@
 import React, { useState } from 'react'
-import { ScreenNav } from '../utils/Types'
+import {emailValidator,passwordValidator, ScreenNav} from '../utils/index'
+import {SignUpLogo,Button, TextInput} from '../components/index'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native'
-import { KeyboardAvoidingView, StyleSheet, View, Text,TouchableOpacity} from "react-native"
-import TextInput from '../components/TextInput'
-import { emailValidator } from '../utils/emailValidator'
-import { passwordValidator } from '../utils/passwordValidator'
-import Logo from '../components/SignUpLogo';
-import Button from '../components/Button'
-import {getAuth,signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { KeyboardAvoidingView, StyleSheet} from "react-native"
+import {getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import {app} from '../../firebaseSetup';
 
 type SignUpScreen = NativeStackNavigationProp<ScreenNav,"SignUp">
 
-export default function SignUp() {
+export default function SignUpScreen() {
   const navigation = useNavigation<SignUpScreen>();
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
@@ -37,14 +33,14 @@ export default function SignUp() {
 
     createUserWithEmailAndPassword(auth,email.value, password.value)
     .then( () => {
-      navigation.navigate('LogIn')
+      navigation.replace('LogIn')
     })
     .catch(error=> alert(error.message))
   }
   
   return (
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
-     <Logo/>
+     <SignUpLogo/>
     <TextInput
       label="Email"
       returnKeyType="next"
