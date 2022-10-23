@@ -5,7 +5,7 @@ import Button from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react'
-import { ScreenNav } from '../utils/Types';
+import {ScreenNav} from '../utils/index'
 
 type ProfileScreen = NativeStackNavigationProp<ScreenNav, "ProfileScreen">
 

@@ -90,7 +90,7 @@ export default function LoginScreen() {
           description={undefined} 
         />
       <Button mode="contained" logo="" text={"Login in "} onPress={onEmailLogin} />
-      <Button mode="contained" logo="facebook" text={"Login in with Facebook"} onPress={onFacebookLogin} />
+      <Button mode="contained" logo="facebook" text={"Login with Facebook"} onPress={onFacebookLogin} />
       <View style={styles.row}>
           <Text>Don’t have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
