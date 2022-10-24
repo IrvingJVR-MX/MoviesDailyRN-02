@@ -7,14 +7,23 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react'
 import {ScreenNav} from '../utils/index'
 
+import { useDispatch, useSelector } from 'react-redux';
+import { auth } from '../utils/firebase';
+import { logout, selectUser } from '../features/userSlice';
+
+
+
 type ProfileScreen = NativeStackNavigationProp<ScreenNav, "ProfileScreen">
 
 export default function ProfileScreen () {
     const navigation = useNavigation<ProfileScreen>();
     const auth = getAuth(app);
+    const dispatch = useDispatch();
+
     const onSignOut = () => {
         signOut(auth)
         .then( () => {
+          dispatch(logout());
           navigation.replace('LogIn')
         })
         .catch(error=> alert(error.message))

@@ -6,6 +6,17 @@ import { useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, StyleSheet} from "react-native"
 import {getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import {app} from '../../firebaseSetup';
+//REDUX
+import {
+  auth,
+  signInWithEmailAndPassword,
+} from '../utils/firebase';
+import { useDispatch } from 'react-redux';
+import { login } from '../features/userSlice';
+
+//REDUX
+
+
 
 type SignUpScreen = NativeStackNavigationProp<ScreenNav,"SignUp">
 
@@ -16,6 +27,8 @@ export default function SignUpScreen() {
   const [confirmPassword, setConfirmPassword] = useState({ value: '', error: '' })
 
   const auth = getAuth(app);
+  const dispatch = useDispatch();
+
 
   const onRegisterLogin = () => {
     const emailError = emailValidator(email.value)
@@ -32,7 +45,14 @@ export default function SignUpScreen() {
     }
 
     createUserWithEmailAndPassword(auth,email.value, password.value)
-    .then( () => {
+    .then((userAuth) => {
+      dispatch(
+        login({
+          email: userAuth.user.email,
+          uid: userAuth.user.uid,
+          displayName: userAuth.user.displayName,
+        })
+      );
       navigation.replace('LogIn')
     })
     .catch(error=> alert(error.message))

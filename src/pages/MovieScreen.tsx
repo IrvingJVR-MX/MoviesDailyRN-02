@@ -1,7 +1,8 @@
-import { StyleSheet, View,FlatList,TouchableOpacity } from 'react-native'
+import { StyleSheet, View,FlatList,TouchableOpacity, Text } from 'react-native'
 import React from 'react'
 import {ScreenHeader} from '../components/index'
 import List from '../components/List'
+import {useAppSelector} from "../app/hooks"
 
 import { useRef } from "react";
 import { useState } from "react";
@@ -55,8 +56,12 @@ var rect: Squ[] = [{
 }
 ];
 export default function MovieScreen () {
+  var user = useAppSelector(state => state.user)
   const flatlist  = useRef<FlatList>(null)
   const [list, setList] = useState(rect)
+
+  console.log(user.email)
+
   const changeColor = (idx:number)=>{
     //setExtraData(new Date())
     //getDataObject("lista", idx)
@@ -65,7 +70,6 @@ export default function MovieScreen () {
     <View style={styles.view}>
       <View style={styles.screen}>
         <ScreenHeader>Movies</ScreenHeader>
-  
       </View>
     </View>
   )

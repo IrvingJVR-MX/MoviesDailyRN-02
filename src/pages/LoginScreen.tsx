@@ -4,9 +4,24 @@ import {emailValidator,passwordValidator, ScreenNav,theme} from '../utils/index'
 import {LoginLogo,Header,Button, TextInput} from '../components/index'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native'
-import { getAuth, FacebookAuthProvider, signInWithCredential, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, FacebookAuthProvider, signInWithCredential, signInWithEmailAndPassword, Auth } from 'firebase/auth'
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
 import {app} from '../../firebaseSetup';
+
+
+
+
+///REDUX
+import { useDispatch } from 'react-redux';
+import { login, logout } from '../features/userSlice';
+import { auth, onAuthStateChanged } from '../utils/firebase';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux'
+import { createSlice } from '@reduxjs/toolkit'
+
+import {userState} from "../utils/Types"
+
+
 
 type LoginScreen = NativeStackNavigationProp<ScreenNav,"LogIn">
 
@@ -15,7 +30,27 @@ export default function LoginScreen() {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const auth = getAuth(app);
+///REDUX
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        dispatch(
+          login({
+            email: userAuth.email,
+            id: userAuth.uid
+          })
+        );
+        navigation.replace('HomeScreen')
+      } else {
+        dispatch(logout());
+      }
+    });
+  }, []);
+///REDUX
+
+/*
   //Check user loged
   useEffect(() =>{
     const unsubcribe = auth.onAuthStateChanged ( user =>{
@@ -24,7 +59,7 @@ export default function LoginScreen() {
       }
     })
     return unsubcribe
-  },[])
+  },[])*/
 
   //Email login
   const onEmailLogin = () => {
@@ -36,7 +71,13 @@ export default function LoginScreen() {
       return
     }
     signInWithEmailAndPassword(auth,email.value,password.value)
-    .then( () => {
+    .then( (userAuth) => {
+      dispatch(
+        login({
+          email: userAuth.user.email,
+          id: userAuth.user.uid
+        })
+      );
       navigation.replace('HomeScreen')
     })
     .catch(error=> alert(error.message))

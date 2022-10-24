@@ -10,6 +10,10 @@ import MovieScreen from './src/pages/MovieScreen'
 import TvShowScreen from './src/pages/TvShowScreen'
 import ProfileScreen from './src/pages/ProfileScreen'
 
+import { Provider } from 'react-redux';
+import {store} from './src/app/store';
+
+
 const Stack = createNativeStackNavigator<ScreenNav>();
 
 export default function App() {
@@ -22,13 +26,15 @@ export default function App() {
     </Drawer.Navigator>
   )
   return (
+    <Provider store={store}>
      <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen options={{headerShown:false}} name="LogIn" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen options={{ headerShown: false }} name="HomeScreen" component={DrawerHome}  />
-
         </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
+
   );
 }
