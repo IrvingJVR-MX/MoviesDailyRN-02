@@ -4,24 +4,10 @@ import {emailValidator,passwordValidator, ScreenNav,theme} from '../utils/index'
 import {LoginLogo,Header,Button, TextInput} from '../components/index'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native'
-import { getAuth, FacebookAuthProvider, signInWithCredential, signInWithEmailAndPassword, Auth } from 'firebase/auth'
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
-import {app} from '../../firebaseSetup';
-
-
-
-
-///REDUX
 import { useDispatch } from 'react-redux';
 import { login, logout } from '../features/userSlice';
-import { auth, onAuthStateChanged } from '../utils/firebase';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux'
-import { createSlice } from '@reduxjs/toolkit'
-
-import {userState} from "../utils/Types"
-
-
+import { app, getAuth, FacebookAuthProvider, signInWithCredential, signInWithEmailAndPassword, onAuthStateChanged } from '../utils/firebase';
 
 type LoginScreen = NativeStackNavigationProp<ScreenNav,"LogIn">
 
@@ -32,7 +18,6 @@ export default function LoginScreen() {
   const auth = getAuth(app);
 ///REDUX
   const dispatch = useDispatch();
-
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
@@ -48,18 +33,6 @@ export default function LoginScreen() {
       }
     });
   }, []);
-///REDUX
-
-/*
-  //Check user loged
-  useEffect(() =>{
-    const unsubcribe = auth.onAuthStateChanged ( user =>{
-      if (user){
-        navigation.replace('HomeScreen')
-      }
-    })
-    return unsubcribe
-  },[])*/
 
   //Email login
   const onEmailLogin = () => {

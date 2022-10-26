@@ -1,92 +1,122 @@
-import { StyleSheet, View,FlatList,TouchableOpacity, Text } from 'react-native'
-import React from 'react'
-import {ScreenHeader} from '../components/index'
-import List from '../components/List'
-import {useAppSelector} from "../app/hooks"
+import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView, TouchableOpacity} from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { ScreenHeader,MoviePosterListItem } from '../components/index'
+import {Movie, MovieDetail}  from '../utils/Types'
+import { getPopularMoviesUrl, getTopRatedMoviesUrl, getMustWatchMoviesUrl, getUpcomingMoviesUrl} from "../api/url";
+import { useNavigation } from '@react-navigation/native'
+import { ScreenNav,theme} from '../utils/index'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { useRef } from "react";
-import { useState } from "react";
-const generateColor = () => {
-  const randomColor = Math.floor(Math.random() * 16777215)
-    .toString(16)
-    .padStart(6, '0');
-  return `${randomColor}`;
-};
+type MovieScreen = NativeStackNavigationProp<ScreenNav,"MovieScreen">
 
-type Squ = {
-  color: string;
-}
+export default  function MovieScreen() {
+  const navigation = useNavigation<MovieScreen>();
 
-var rect: Squ[] = [{
-  color: generateColor(),
-}, {
-  color:generateColor(),
-}, {
-  color:generateColor(),
-}
-, {
-  color:generateColor(),
-}, {
-  color:generateColor(),
-}
-, {
-  color:generateColor(),
-}, {
-  color:generateColor(),
-}
-, {
-  color:generateColor(),
-}, {
-  color:generateColor(),
-}
-, {
-  color:generateColor(),
-}, {
-  color:generateColor(),
-}
-, {
-  color:generateColor(),
-}, {
-  color:generateColor(),
-}
-, {
-  color:generateColor(),
-}, {
-  color:generateColor(),
-}
-];
-export default function MovieScreen () {
-  var user = useAppSelector(state => state.user)
-  const flatlist  = useRef<FlatList>(null)
-  const [list, setList] = useState(rect)
+  const [popularMovies, setPopularMovies] = useState<Movie>({tile: "", data:[]});
+  const popularMovieUrl =  getPopularMoviesUrl(1)
+  
+  const [topRatedMovies, setTopRatedMovies] = useState<Movie>({tile: "", data:[]});
+  const topRatedMoviesUrl =  getTopRatedMoviesUrl(1)
 
-  console.log(user.email)
+  const [mustWatchMovie, setMustWatchMovie] = useState<Movie>({tile: "", data:[]});
+  const MustWatchMovieUrl =  getMustWatchMoviesUrl(1)
 
-  const changeColor = (idx:number)=>{
-    //setExtraData(new Date())
-    //getDataObject("lista", idx)
+  const [upcomingMovies, setupcomingMovies] = useState<Movie>({tile: "", data:[]});
+  const upcomingMoviesUrl =  getUpcomingMoviesUrl(1)
+
+  useEffect(() => {
+    fetch(popularMovieUrl)
+      .then((response) => response.json())
+      .then((data) =>{
+        const movieDetails : MovieDetail[] = data.results
+        const movies: Movie = { tile: 'Popular', data: movieDetails }
+        setPopularMovies(movies)
+      })
+      .catch((error) => console.error(error))
+
+      fetch(topRatedMoviesUrl)
+      .then((response) => response.json())
+      .then((data) =>{
+        const topRatedMovies : MovieDetail[] = data.results
+        const movies: Movie = { tile: 'Top Rated', data: topRatedMovies }
+        setTopRatedMovies(movies)
+      })
+      .catch((error) => console.error(error))
+
+      fetch(MustWatchMovieUrl)
+      .then((response) => response.json())
+      .then((data) =>{
+        const mustWatchMovies : MovieDetail[] = data.results
+        const movies: Movie = { tile: 'Must watch', data: mustWatchMovies }
+        setMustWatchMovie(movies)
+      })
+      .catch((error) => console.error(error))
+
+      fetch(upcomingMoviesUrl)
+      .then((response) => response.json())
+      .then((data) =>{
+        const upcomingMovies : MovieDetail[] = data.results
+        const movies: Movie = { tile: 'Coming soon', data: upcomingMovies }
+        setupcomingMovies(movies)
+      })
+      .catch((error) => console.error(error))
+  }, []);
+  
+  
+  function onPress (movie: MovieDetail) {
+    navigation.navigate('MovieDetailScreen',{movie:movie});
   }
+
+  
+
   return (
-    <View style={styles.view}>
-      <View style={styles.screen}>
-        <ScreenHeader>Movies</ScreenHeader>
-      </View>
+  <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+         <View style={styles.screenHeader}>
+            <ScreenHeader>Movies</ScreenHeader>
+         </View>
+        <SectionList
+            contentContainerStyle={{ paddingHorizontal: 10 }}
+            stickySectionHeadersEnabled={false}
+            sections={[popularMovies, topRatedMovies, mustWatchMovie,upcomingMovies]}
+            renderSectionHeader={({ section }) => (
+              <>
+                <Text style={styles.sectionHeader}>{section.tile}</Text>
+                <FlatList
+                  horizontal
+                  data={section.data}
+                  renderItem={({ item }) => 
+                  <TouchableOpacity onPress={() => onPress(item)}>
+                      <MoviePosterListItem {...item}/>
+                  </TouchableOpacity>
+                  }
+                  showsHorizontalScrollIndicator={false}
+                />
+              </>
+            )}
+            renderItem={({ item, section }) => {
+              return null;
+            }}
+          />
+        </SafeAreaView>
     </View>
+
   )
 }
 
-
 const styles = StyleSheet.create({
-  view:{
-    backgroundColor: '#fff',
-    height: '100%',
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
   },
-  screen:{  
-    marginLeft: 16
+  screenHeader:{
+    marginLeft: 20
   },
-  listItem: {
-    marginTop:50,
-    margin: 5,
-    marginBottom:0
+  sectionHeader: {
+    fontSize: 18,
+    marginLeft: 15,
+    marginTop: 20,
+    marginBottom: 5,
   }
+
 })

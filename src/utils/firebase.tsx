@@ -1,7 +1,7 @@
 //src/firebase.js
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, 
-        signInWithEmailAndPassword, signOut } from 'firebase/auth';
+        signInWithEmailAndPassword, signOut, FacebookAuthProvider, signInWithCredential } from 'firebase/auth';
 
 const firebaseConfig = {
      apiKey: "AIzaSyAqEjZ3DSxK7pJYvgRSAs-DxV0TpCJbvKE",
@@ -14,8 +14,13 @@ const firebaseConfig = {
     };
 
 initializeApp(firebaseConfig);
-
+const app = initializeApp(firebaseConfig);
 //init services
 const auth = getAuth();
 
-export {auth,createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword,signOut}
+export {auth, getAuth, app,
+        createUserWithEmailAndPassword, 
+        onAuthStateChanged, 
+        signInWithEmailAndPassword,signOut, 
+        FacebookAuthProvider,
+        signInWithCredential}

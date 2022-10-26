@@ -14,6 +14,8 @@ import { logout, selectUser } from '../features/userSlice';
 
 
 type ProfileScreen = NativeStackNavigationProp<ScreenNav, "ProfileScreen">
+  //var user = useAppSelector(state => state.user)
+  import { useAppSelector } from "../app/hooks"
 
 export default function ProfileScreen () {
     const navigation = useNavigation<ProfileScreen>();

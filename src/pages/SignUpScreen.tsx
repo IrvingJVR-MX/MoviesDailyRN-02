@@ -49,8 +49,7 @@ export default function SignUpScreen() {
       dispatch(
         login({
           email: userAuth.user.email,
-          uid: userAuth.user.uid,
-          displayName: userAuth.user.displayName,
+          id: userAuth.user.uid,
         })
       );
       navigation.replace('LogIn')
