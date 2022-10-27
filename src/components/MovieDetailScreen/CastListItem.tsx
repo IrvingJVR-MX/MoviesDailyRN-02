@@ -1,13 +1,14 @@
 import React from 'react'
-import { StyleSheet, View, Image } from 'react-native'
-import {TVShowDetail}  from '../utils/Models/TvShow'
+import { StyleSheet, View, Image, Text } from 'react-native'
+import {GenericString}  from '../../utils/Models/Generic'
 
-export default function TVShowPosterListItem(photoPath: TVShowDetail) {
+
+export default function CastListItem(photo: GenericString) {
   return(
         <View style={styles.item}>
           <Image
             source={{
-              uri:"https://image.tmdb.org/t/p/w500"+ photoPath.poster_path,
+              uri:"https://image.tmdb.org/t/p/w500"+ photo.photoRef,
             }}
             style={styles.itemPhoto}
             resizeMode="cover"
@@ -21,8 +22,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   itemPhoto: {
-    height: 180, 
-    width: 110, 
+    height: 150, 
+    width: 100, 
     borderRadius: 20
   }
 })

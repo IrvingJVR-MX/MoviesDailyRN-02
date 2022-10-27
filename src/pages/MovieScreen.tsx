@@ -1,10 +1,10 @@
 import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView, TouchableOpacity} from 'react-native'
 import React, { useEffect, useState } from 'react';
 import { ScreenHeader,MoviePosterListItem } from '../components/index'
-import {Movie, MovieDetail}  from '../utils/Types'
-import { getPopularMoviesUrl, getTopRatedMoviesUrl, getMustWatchMoviesUrl, getUpcomingMoviesUrl} from "../api/url";
+import {Movie, MovieDetail}  from '../utils/Models/Movie'
+import { getPopularMoviesUrl, getTopRatedMoviesUrl, getMustWatchMoviesUrl, getUpcomingMoviesUrl, getMovieCreditUrl} from "../api/url";
 import { useNavigation } from '@react-navigation/native'
-import { ScreenNav,theme} from '../utils/index'
+import { ScreenNav} from '../utils/Models/ScreenNav'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type MovieScreen = NativeStackNavigationProp<ScreenNav,"MovieScreen">
@@ -23,6 +23,8 @@ export default  function MovieScreen() {
 
   const [upcomingMovies, setupcomingMovies] = useState<Movie>({tile: "", data:[]});
   const upcomingMoviesUrl =  getUpcomingMoviesUrl(1)
+
+
 
   useEffect(() => {
     fetch(popularMovieUrl)
@@ -63,11 +65,9 @@ export default  function MovieScreen() {
   }, []);
   
   
-  function onPress (movie: MovieDetail) {
-    navigation.navigate('MovieDetailScreen',{movie:movie});
+  function onPress (Movie: MovieDetail) {
+    navigation.navigate('MovieDetailScreen',{movie:Movie});
   }
-
-  
 
   return (
   <View style={styles.container}>

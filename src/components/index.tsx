@@ -7,6 +7,8 @@ export { default as ScreenHeader } from './ScreenHeader';
 export { default as List } from './List';
 export { default as MoviePosterListItem } from './MoviePosterListItem';
 export { default as TVShowPosterListItem } from './TVShowPosterListItem';
+export { default as CastListItem } from './MovieDetailScreen/CastListItem';
+
 
 
 

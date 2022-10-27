@@ -5,8 +5,6 @@ const API_KEY = "1abb3e68d878be1155d781ce812f80a8";
 const defaultQuery = {
   api_key: API_KEY,
   language: "en-US",
-  // include_adult: true,
-  // region: "ID",
 };
 
 const queryString = (obj) => {

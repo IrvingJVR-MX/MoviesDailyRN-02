@@ -1,7 +1,7 @@
 import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView} from 'react-native'
 import React, { useEffect, useState } from 'react';
 import {ScreenHeader,TVShowPosterListItem } from '../components/index'
-import {TVShow, TVShowDetail}  from '../utils/Types'
+import {TVShow, TVShowDetail}  from '../utils/Models/TvShow'
 import {
   getPopularTVShowUrl,
   getTopRatedTVShowUrl,
