@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView} from 'react-native'
+import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView, TouchableOpacity} from 'react-native'
 import React, { useEffect, useState } from 'react';
 import {ScreenHeader,TVShowPosterListItem } from '../components/index'
 import {TVShow, TVShowDetail}  from '../utils/Models/TvShow'
@@ -9,7 +9,16 @@ import {
   getOnTheAirTVShowUrl
 } from "../api/url";
 
+import { ScreenNav} from '../utils/Models/ScreenNav'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native'
+
+type TvShowScreen = NativeStackNavigationProp<ScreenNav,"TvShowScreen">
+
+
 export default function TvShowScreen() {
+  const navigation = useNavigation<TvShowScreen>();
+
   const [popularTVShow, setPopularTVShow] = useState<TVShow>({tile: "", data:[]});
   const popularTVShowURL =  getPopularTVShowUrl(1)
 
@@ -61,6 +70,9 @@ export default function TvShowScreen() {
 
   }, []);
 
+  function onPress (tvShowDetail: TVShowDetail) {
+    navigation.navigate('TvShowDetailScreen',{tvShow:tvShowDetail});
+  }
 
   
   return (
@@ -79,7 +91,11 @@ export default function TvShowScreen() {
                 <FlatList
                   horizontal
                   data={section.data}
-                  renderItem={({ item }) => <TVShowPosterListItem {...item}/>}
+                  renderItem={({ item }) => 
+                  <TouchableOpacity onPress={() => onPress(item)}>
+                    <TVShowPosterListItem {...item}/>
+                  </TouchableOpacity>
+                }
                   showsHorizontalScrollIndicator={false}
                 />
               </>

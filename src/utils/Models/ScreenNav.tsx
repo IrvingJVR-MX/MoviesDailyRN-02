@@ -6,4 +6,6 @@ export type ScreenNav = {
     MovieScreen: undefined;
     TvShowScreen: undefined;
     MovieDetailScreen:undefined;
+    TvShowDetailScreen:undefined;
+
 }

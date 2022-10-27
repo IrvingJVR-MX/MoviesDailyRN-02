@@ -2,7 +2,7 @@ import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView, TouchableO
 import React, { useEffect, useState } from 'react';
 import { ScreenHeader,MoviePosterListItem } from '../components/index'
 import {Movie, MovieDetail}  from '../utils/Models/Movie'
-import { getPopularMoviesUrl, getTopRatedMoviesUrl, getMustWatchMoviesUrl, getUpcomingMoviesUrl, getMovieCreditUrl} from "../api/url";
+import { getPopularMoviesUrl, getTopRatedMoviesUrl, getMustWatchMoviesUrl, getUpcomingMoviesUrl} from "../api/url";
 import { useNavigation } from '@react-navigation/native'
 import { ScreenNav} from '../utils/Models/ScreenNav'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';

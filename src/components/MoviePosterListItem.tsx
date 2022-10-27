@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Image } from 'react-native'
-import {MovieDetail}  from '../utils/Models/ScreenNav'
+import {MovieDetail}  from '../utils/Models/Movie'
 
 
 export default function MoviePosterListItem(photoPath: MovieDetail) {

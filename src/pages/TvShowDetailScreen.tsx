@@ -1,39 +1,37 @@
 import { StyleSheet, View,FlatList, Text, TouchableOpacity ,SectionList, ScrollView ,Image, SafeAreaView} from 'react-native'
 import React, { useEffect, useState } from 'react';
-import { GenericPhotoPath,GenericString}  from '../utils/Models/Generic'
-import {Recommendation} from '../utils/Models/Recommendation'
-import {MovieDetail} from '../utils/Models/Movie'
-
-import { CrewCastDetail} from '../utils/Models/Cast'
-import {Trailer}  from '../utils/Models/Trailer'
+import {TVShow, TVShowDetail} from '../utils/Models/TvShow'
 import { theme } from '../utils/theme'
 import {Rating} from 'react-native-rating-component';
-import { getMovieCreditUrl, getMovieVideoUrl, getMovieRecommendationsUrl} from "../api/url";
-import Ionicons from '@expo/vector-icons/Ionicons';
-import {CastListItem } from '../components/index'
+import { getTvShowCreditUrl, getTvShowVideoUrl,getTvShowRecommendationsUrl,getTvShowDetailUrl} from "../api/url";
 import Modal from "react-native-modal";
-
 import WebView from 'react-native-webview';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import {TvShowDetail} from '../utils/Models/TvshowDetail'
+import { GenericPhotoPath, GenericString}  from '../utils/Models/Generic'
+import {CastListItem } from '../components/index'
+import { CrewCastDetail} from '../utils/Models/Cast'
+import {Recommendation} from '../utils/Models/Recommendation'
+import {Trailer}  from '../utils/Models/Trailer'
 
-export default  function MovieDetailScreen({ route }) {
-    const movie: MovieDetail =  route.params.movie;  
 
-    const [MovieCredit, setMovieCredit] = useState<GenericPhotoPath>({title:"", data:[]});
-    const [MovieRecommendation, setMovieRecommendation] = useState<GenericPhotoPath>({title:"", data:[]});
-    const [MovieVideoKey, setMovieVideoKey] = useState<String>("crPl0ITIkS0");
+export default  function TvShowDetailScreen({ route }) {
+    const tvShow: TVShowDetail =  route.params.tvShow;  
+
+    const [tvShowDetail, setTvShowDetail] = useState<GenericPhotoPath>({title:"", data:[]});
+    const [tvShowCredit, setTvShowCredit] = useState<GenericPhotoPath>({title:"", data:[]});
+    const [tvShowRecommendation, setTvShowRecommendation] = useState<GenericPhotoPath>({title:"", data:[]});
+    const [tvShowVideo, setTvShowVideo] = useState<String>("crPl0ITIkS0");
+
     const [isModalVisible, setModalVisible] = useState(false);
+    const tvShowDetailUrl =  getTvShowDetailUrl(tvShow.id)  
+    const tvShowCreditUrl =  getTvShowCreditUrl(tvShow.id)  
+    const tvShowRecommendationsUrl =  getTvShowRecommendationsUrl(tvShow.id)  
+    const tvShowVideoUrl =  getTvShowVideoUrl(tvShow.id)  
 
-    const movieRecommendationURL =  getMovieRecommendationsUrl(movie.id)  
-    const movieCreditURL =  getMovieCreditUrl(movie.id)
-    const MovieVideoURL =  getMovieVideoUrl(movie.id)  
-
-    const toggleModal = () => {
-      setModalVisible(!isModalVisible);
-    };
-  
     useEffect(() => {
 
-      fetch(MovieVideoURL)
+      fetch(tvShowVideoUrl)
       .then((response) => response.json())
       .then((data) =>{
         const trailer : Trailer= data        
@@ -43,12 +41,29 @@ export default  function MovieDetailScreen({ route }) {
         if (trailerFilter[0].key == ""){
           trailerFilter[0].key = "crPl0ITIkS0"
         }
-        setMovieVideoKey(trailerFilter[0].key)
+        setTvShowVideo(trailerFilter[0].key)
       }).catch(() => {
-        setMovieVideoKey("crPl0ITIkS0")
+        setTvShowVideo("crPl0ITIkS0")
       });
 
-      fetch(movieCreditURL)
+      fetch(tvShowRecommendationsUrl)
+      .then((response) => response.json())
+      .then((data) =>{
+        const movieRecommendation : Recommendation= data
+        var photoPathArray: GenericString[] = [] ;
+        for (let i in movieRecommendation.results ){
+           if (movieRecommendation.results[i].poster_path !=null){
+            var genericString:GenericString = {photoRef:movieRecommendation.results[i].poster_path,
+            title: movieRecommendation.results[i].title}
+            photoPathArray.push(genericString)
+           }
+        }
+        const movieRecommendationDetail: GenericPhotoPath = {title:"Recommendations", data: photoPathArray}
+        setTvShowRecommendation(movieRecommendationDetail)
+      })
+
+
+      fetch(tvShowCreditUrl)
         .then((response) => response.json())
         .then((data) =>{
           const crewCastDetail : CrewCastDetail= data
@@ -61,46 +76,49 @@ export default  function MovieDetailScreen({ route }) {
              }
           }
           const CastDetail: GenericPhotoPath = {title:"Cast", data: photoPathArray}
-          setMovieCredit(CastDetail)
+          setTvShowCredit(CastDetail)
         })
 
-      fetch(movieRecommendationURL)
+      fetch(tvShowDetailUrl)
         .then((response) => response.json())
         .then((data) =>{
-          const movieRecommendation : Recommendation= data
-          var photoPathArray: GenericString[] = [] ;
-          for (let i in movieRecommendation.results ){
-             if (movieRecommendation.results[i].poster_path !=null){
-              var genericString:GenericString = {photoRef:movieRecommendation.results[i].poster_path,
-              title: movieRecommendation.results[i].title}
-              photoPathArray.push(genericString)
-             }
+          const seasonDetail : TvShowDetail= data
+          var genericStringArray: GenericString[] = [] ;
+          for (let i in seasonDetail.seasons ){
+            if(seasonDetail.seasons[i].poster_path!=null){
+              let genericString: GenericString = {photoRef:seasonDetail.seasons[i].poster_path, title:
+                seasonDetail.seasons[i].name}
+              genericStringArray.push(genericString)
+            }
           }
-          const movieRecommendationDetail: GenericPhotoPath = {title:"Recommendations", data: photoPathArray}
-          setMovieRecommendation(movieRecommendationDetail)
+          const seasonDetailObj: GenericPhotoPath = {title:"Seasons", data: genericStringArray}
+          setTvShowDetail(seasonDetailObj)
         })
-
     }, []);
     
+    
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
+  
   
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-          <Image source={{ uri:"https://image.tmdb.org/t/p/w500"+ movie.backdrop_path,}}
+          <Image source={{ uri:"https://image.tmdb.org/t/p/w500"+ tvShow.backdrop_path,}}
                 style={styles.itemPhoto} resizeMode="stretch"
               />
             <View style={styles.viewTitle}>
-              <Text style={styles.header}>{movie.title}</Text>
+              <Text style={styles.header}>{tvShow.name}</Text>
               <View style={styles.line}/> 
             </View>
 
             <View style={styles.rating}>
                 <Rating
-                initialValue={Number(movie.vote_average)/1.8}
+                initialValue={Number(tvShow.vote_average)/1.8}
                 fillColorInactive={theme.colors.white}
                 />
             </View>
-
             <Modal isVisible={isModalVisible}>
                 <Text style={styles.close} onPress={toggleModal}>X</Text>
                 <View style={{ height: 200 }}>
@@ -109,25 +127,25 @@ export default  function MovieDetailScreen({ route }) {
                         allowsFullscreenVideo={true}
                         domStorageEnabled={true}
                         
-                        source={{uri: 'https://www.youtube.com/embed/'+MovieVideoKey.toString() }}
+                        source={{uri: 'https://www.youtube.com/embed/'+tvShowVideo.toString() }}
                     />
                 </View>
             </Modal>
             <TouchableOpacity style={styles.playButtonBackground} onPress={toggleModal} >
                 <Ionicons style={styles.playButton} name="play" size={32} color={theme.colors.white} />
             </TouchableOpacity>
-          <SectionList
+            <SectionList
             ListHeaderComponent={
               <View>
                 <View style = {styles.overView} >
                   <Text style={styles.overviewText}>OverView</Text>
-                  <Text style={styles.overviewContent}>{movie.overview}</Text>
+                  <Text style={styles.overviewContent}>{tvShow.overview}</Text>
                 </View>
 
               </View>
             }
             contentContainerStyle={{ paddingHorizontal: 10 }}
-            sections={[MovieCredit, MovieRecommendation]}
+            sections={[tvShowDetail, tvShowCredit, tvShowRecommendation]}
             renderSectionHeader={({ section }) => (
               <>
                 <Text style={styles.sectionHeader}>{section.title}</Text>
@@ -147,6 +165,7 @@ export default  function MovieDetailScreen({ route }) {
               return null;
             }}
           /> 
+            
       </View>
   </SafeAreaView>
   )
@@ -168,7 +187,7 @@ const styles = StyleSheet.create({
   },
   rating: {
     position:"absolute",
-    marginTop:230,
+    marginTop:240,
     marginLeft:13 
   },
   container: {
@@ -210,7 +229,7 @@ const styles = StyleSheet.create({
     width: '100%', 
   },
   header: {
-    fontSize: 24,
+    fontSize: 20,
     color: theme.colors.white,
     fontWeight: 'bold',
     paddingVertical: 12,

@@ -1,10 +1,11 @@
 export type GenericPhotoPath ={
     title: String;
-    data: String[]
+    data: GenericString[]
   }
   
   export type GenericString ={
     photoRef: String;
+    title: String;
   }
   
   
