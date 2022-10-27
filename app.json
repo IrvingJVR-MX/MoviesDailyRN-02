@@ -38,7 +38,8 @@
             "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
           }
         ]
-      }
+      },
+      "bundleIdentifier": "com.lanoria19.MoviesDailyRN02"
     },
     "android": {
       "adaptiveIcon": {
@@ -52,6 +53,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0f1d8196-d03e-4b3d-a216-0f2c1f58eaf2"
+      }
     }
   }
 }
