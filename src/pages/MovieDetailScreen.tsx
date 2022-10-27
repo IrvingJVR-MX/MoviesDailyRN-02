@@ -11,7 +11,8 @@ import { getMovieCreditUrl, getMovieVideoUrl, getMovieRecommendationsUrl} from "
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {CastListItem } from '../components/index'
 import Modal from "react-native-modal";
-import YoutubePlayer from 'react-native-youtube-iframe'
+
+import WebView from 'react-native-webview';
 
 export default  function MovieDetailScreen({ route }) {
     const movie: MovieDetail =  route.params.movie;  
@@ -97,13 +98,15 @@ export default  function MovieDetailScreen({ route }) {
 
             <Modal isVisible={isModalVisible}>
                 <Text style={styles.close} onPress={toggleModal}>X</Text>
-                <YoutubePlayer
-                height={300}
-                play={true}
-                videoId={MovieVideoKey.toString()}
-                />
+                <View style={{ height: 200 }}>
+                  <WebView
+                        javaScriptEnabled={true}
+                        allowsFullscreenVideo={true}
+                        domStorageEnabled={true}
+                        source={{uri: 'https://www.youtube.com/embed/'+MovieVideoKey.toString() }}
+                    />
+                </View>
             </Modal>
-
             <TouchableOpacity style={styles.playButtonBackground} onPress={toggleModal} >
                 <Ionicons style={styles.playButton} name="play" size={32} color={theme.colors.white} />
             </TouchableOpacity>
