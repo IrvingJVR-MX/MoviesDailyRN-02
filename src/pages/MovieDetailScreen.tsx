@@ -10,10 +10,10 @@ import { getMovieCreditUrl, getMovieVideoUrl, getMovieRecommendationsUrl} from "
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {CastListItem } from '../components/index'
 import Modal from "react-native-modal";
-import WebView from 'react-native-webview';
 import { request, requestData} from "../api/fetch";
 import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
+import YoutubePlayer from "react-native-youtube-iframe";
 
 const colorScheme = Appearance.getColorScheme();
 
@@ -77,16 +77,11 @@ export default  function MovieDetailScreen({ route }) {
 
     useEffect(() => {
       getMovieVideoURL(MovieVideoURL)
-    }, []);
-
-    useEffect(() => {
       getMovieCredit(movieCreditURL)
-    }, []);
-  
-    useEffect(() => {
       getMovieRecommendation(movieRecommendationURL)
     }, []);
-    
+
+   
   
   return (
     <SafeAreaView style={styles.container}>
@@ -109,13 +104,11 @@ export default  function MovieDetailScreen({ route }) {
             <Modal isVisible={isModalVisible}>
                 <Text style={styles.close} onPress={toggleModal}>X</Text>
                 <View style={{ height: 200 }}>
-                  <WebView
-                        javaScriptEnabled={true}
-                        allowsFullscreenVideo={true}
-                        domStorageEnabled={true}
-                        
-                        source={{uri: 'https://www.youtube.com/embed/'+MovieVideoKey.toString() }}
-                    />
+                <YoutubePlayer
+                    height={300}
+                    play={true}
+                    videoId={MovieVideoKey.toString()}
+                  />
                 </View>
             </Modal>
             <TouchableOpacity style={styles.playButtonBackground} onPress={toggleModal} >

@@ -59,20 +59,12 @@ export default  function MovieScreen() {
 
   useEffect(() => {
     getData(popularMovieUrl,'Popular')
-
+    getData(topRatedMoviesUrl,'Top Rated')
+    getData(upcomingMoviesUrl,'Coming soon')
+    getData(MustWatchMovieUrl,'Must watch')
   }, []);
   
-  useEffect(() => {
-    getData(topRatedMoviesUrl,'Top Rated')
-}, []);
 
-  useEffect(() => {
-    getData(upcomingMoviesUrl,'Coming soon')
-}, []);
-
-  useEffect(() => {
-    getData(MustWatchMovieUrl,'Must watch')
-}, []);
 
   
   function onPress (Movie: MovieDetail) {

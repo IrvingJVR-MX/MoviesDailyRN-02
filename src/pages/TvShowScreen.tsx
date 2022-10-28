@@ -58,19 +58,11 @@ export default function TvShowScreen() {
 
   useEffect(() => {
     getData(popularTVShowURL,'Popular')
-  }, []);
-
-  useEffect(() => {
     getData(topRatedTVShowURL,'Top Rated')
-  }, []);
-
-  useEffect(() => {
     getData(mustWatchTVShowURL,'Must Watch')
-  }, []);
-
-  useEffect(() => {
     getData(onTheAirTVShowURL,'On The Air')
-}, []);
+
+  }, []);
 
   function onPress (tvShowDetail: TVShowDetail) {
     navigation.navigate('TvShowDetailScreen',{tvShow:tvShowDetail});

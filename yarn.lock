@@ -3594,6 +3594,11 @@
   "resolved" "https://registry.npmjs.org/event-target-shim/-/event-target-shim-5.0.1.tgz"
   "version" "5.0.1"
 
+"events@^3.2.0":
+  "integrity" "sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q=="
+  "resolved" "https://registry.npmjs.org/events/-/events-3.3.0.tgz"
+  "version" "3.3.0"
+
 "exec-async@^2.2.0":
   "integrity" "sha512-87OpwcEiMia/DeiKFzaQNBNFeN3XkkpYIh9FyOqq5mS2oKv3CBE67PXoEKcr6nodWdXNogTiQ0jE2NGuoffXPw=="
   "resolved" "https://registry.npmjs.org/exec-async/-/exec-async-2.2.0.tgz"
@@ -6322,7 +6327,7 @@
     "postcss-value-parser" "^4.2.0"
     "styleq" "^0.1.2"
 
-"react-native-webview@^11.23.1":
+"react-native-webview@^11.23.1", "react-native-webview@>=7.0.0":
   "integrity" "sha512-bmqsdg4RYOUYD37R9XTrQALm7eD62KbLNPRfgvpLGd1SjaurvAjjsLrLN4mt6yOtKOMKeZvlcAl3x6De6cCQsA=="
   "resolved" "https://registry.npmjs.org/react-native-webview/-/react-native-webview-11.23.1.tgz"
   "version" "11.23.1"
@@ -6330,7 +6335,14 @@
     "escape-string-regexp" "2.0.0"
     "invariant" "2.2.4"
 
-"react-native@*", "react-native@>=0.42.0", "react-native@>=0.57", "react-native@>=0.59", "react-native@>=0.63.3", "react-native@>=0.65.0", "react-native@0.69.6":
+"react-native-youtube-iframe@^2.2.2":
+  "integrity" "sha512-og2KW21kCwAHKcnWoyWWBYC6J2Xtqjjwpghhoy9G6zfwZkr8Ej27BbQIAKM/TheJJUZ5/YUrqsgqAdnFYDx5TQ=="
+  "resolved" "https://registry.npmjs.org/react-native-youtube-iframe/-/react-native-youtube-iframe-2.2.2.tgz"
+  "version" "2.2.2"
+  dependencies:
+    "events" "^3.2.0"
+
+"react-native@*", "react-native@>=0.42.0", "react-native@>=0.57", "react-native@>=0.59", "react-native@>=0.60", "react-native@>=0.63.3", "react-native@>=0.65.0", "react-native@0.69.6":
   "integrity" "sha512-wwXpqM+12kdEYdBZCJUb5SBu95CzgejrwFeYJ78RzHZV/Sj6DBRekbsHGrDDsY4R25QXALQxy4DQYQCObVvWjA=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.69.6.tgz"
   "version" "0.69.6"
@@ -6394,7 +6406,7 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^17.0.2 || ^18.0.0", "react@^18.0.0", "react@>=16.0", "react@>=16.3.0", "react@>=17.0.0", "react@18.0.0":
+"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^17.0.2 || ^18.0.0", "react@^18.0.0", "react@>=16.0", "react@>=16.3.0", "react@>=16.8.6", "react@>=17.0.0", "react@18.0.0":
   "integrity" "sha512-x+VL6wbT4JRVPm7EGxXhZ8w8LTROaxPXOqhlGyVSrv0sB1jkyFGgXxJ8LVoPRLvPR6/CIZGFmfzqUa2NYeMr2A=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.0.0.tgz"
   "version" "18.0.0"
