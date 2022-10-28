@@ -11,7 +11,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import {CastListItem } from '../components/index'
 import Modal from "react-native-modal";
 import WebView from 'react-native-webview';
-
+import { request, requestData} from "../api/fetch";
 import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 
@@ -32,29 +32,23 @@ export default  function MovieDetailScreen({ route }) {
     const toggleModal = () => {
       setModalVisible(!isModalVisible);
     };
-  
-    useEffect(() => {
 
-      fetch(MovieVideoURL)
-      .then((response) => response.json())
-      .then((data) =>{
-        const trailer : Trailer= data        
-        const trailerFilter = trailer.results.filter((obj) => {
-          return obj.name === 'Official Trailer';
-        });
-        if (trailerFilter[0].key == ""){
-          trailerFilter[0].key = "crPl0ITIkS0"
-        }
-        setMovieVideoKey(trailerFilter[0].key)
-      }).catch(() => {
-        setMovieVideoKey("crPl0ITIkS0")
-      });
-
-      fetch(movieCreditURL)
-        .then((response) => response.json())
-        .then((data) =>{
-          const crewCastDetail : CrewCastDetail= data
-          var photoPathArray: GenericString[] = [] ;
+    async function getMovieVideoURL(url: string){
+      const data = await request<Trailer>(url);
+      const trailer : Trailer= data  
+      var key: string = "crPl0ITIkS0"  
+      for( let i in trailer){
+        if (trailer[i].name === "Official Trailer")
+         {
+          key = trailer[i].key
+          break;
+         }
+      }
+      setMovieVideoKey(key)
+    }
+    async function getMovieCredit(url: string){
+      const crewCastDetail = await requestData<CrewCastDetail>(url);
+      var photoPathArray: GenericString[] = [] ;
           for (let i in crewCastDetail.cast ){
              if (crewCastDetail.cast[i].profile_path!=null){
                var genericString:GenericString = {photoRef:crewCastDetail.cast[i].profile_path, title:
@@ -62,15 +56,13 @@ export default  function MovieDetailScreen({ route }) {
               photoPathArray.push(genericString)
              }
           }
-          const CastDetail: GenericPhotoPath = {title:"Cast", data: photoPathArray}
-          setMovieCredit(CastDetail)
-        })
+      const CastDetail: GenericPhotoPath = {title:"Cast", data: photoPathArray}
+      setMovieCredit(CastDetail)
+    }
 
-      fetch(movieRecommendationURL)
-        .then((response) => response.json())
-        .then((data) =>{
-          const movieRecommendation : Recommendation= data
-          var photoPathArray: GenericString[] = [] ;
+    async function getMovieRecommendation(url: string){
+      const movieRecommendation = await requestData<Recommendation>(url);
+      var photoPathArray: GenericString[] = [] ;
           for (let i in movieRecommendation.results ){
              if (movieRecommendation.results[i].poster_path !=null){
               var genericString:GenericString = {photoRef:movieRecommendation.results[i].poster_path,
@@ -80,8 +72,19 @@ export default  function MovieDetailScreen({ route }) {
           }
           const movieRecommendationDetail: GenericPhotoPath = {title:"Recommendations", data: photoPathArray}
           setMovieRecommendation(movieRecommendationDetail)
-        })
+      
+    }
 
+    useEffect(() => {
+      getMovieVideoURL(MovieVideoURL)
+    }, []);
+
+    useEffect(() => {
+      getMovieCredit(movieCreditURL)
+    }, []);
+  
+    useEffect(() => {
+      getMovieRecommendation(movieRecommendationURL)
     }, []);
     
   
