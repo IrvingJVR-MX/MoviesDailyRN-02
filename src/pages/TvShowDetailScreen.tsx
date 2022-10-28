@@ -1,7 +1,6 @@
 import { StyleSheet, View,FlatList, Text, TouchableOpacity ,SectionList, ScrollView ,Image, SafeAreaView} from 'react-native'
 import React, { useEffect, useState } from 'react';
 import {TVShow, TVShowDetail} from '../utils/Models/TvShow'
-import { theme } from '../utils/theme'
 import {Rating} from 'react-native-rating-component';
 import { getTvShowCreditUrl, getTvShowVideoUrl,getTvShowRecommendationsUrl,getTvShowDetailUrl} from "../api/url";
 import Modal from "react-native-modal";
@@ -14,7 +13,10 @@ import { CrewCastDetail} from '../utils/Models/Cast'
 import {Recommendation} from '../utils/Models/Recommendation'
 import {Trailer}  from '../utils/Models/Trailer'
 
+import { Appearance } from 'react-native';
+import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 
+const colorScheme = Appearance.getColorScheme();
 export default  function TvShowDetailScreen({ route }) {
     const tvShow: TVShowDetail =  route.params.tvShow;  
 
@@ -116,7 +118,7 @@ export default  function TvShowDetailScreen({ route }) {
             <View style={styles.rating}>
                 <Rating
                 initialValue={Number(tvShow.vote_average)/1.8}
-                fillColorInactive={theme.colors.white}
+                fillColorInactive={LigthTheme.colors.white}
                 />
             </View>
             <Modal isVisible={isModalVisible}>
@@ -132,9 +134,10 @@ export default  function TvShowDetailScreen({ route }) {
                 </View>
             </Modal>
             <TouchableOpacity style={styles.playButtonBackground} onPress={toggleModal} >
-                <Ionicons style={styles.playButton} name="play" size={32} color={theme.colors.white} />
+                <Ionicons style={styles.playButton} name="play" size={32} color={LigthTheme.colors.white} />
             </TouchableOpacity>
             <SectionList
+            style ={styles.body}
             ListHeaderComponent={
               <View>
                 <View style = {styles.overView} >
@@ -177,17 +180,21 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 20,
     marginBottom: 5,
+    color: colorScheme === 'dark' ? Darktheme.colors.black : LigthTheme.colors.black
+  },
+  body:{
+    backgroundColor: colorScheme === 'dark' ? Darktheme.colors.white : LigthTheme.colors.white,
   },
   close:{
    fontSize: 25,
    width: 30,
-   color: theme.colors.white,
+   color: LigthTheme.colors.white,
    marginBottom:10,
    marginLeft:330
   },
   rating: {
     position:"absolute",
-    marginTop:240,
+    marginTop:250,
     marginLeft:13 
   },
   container: {
@@ -196,28 +203,30 @@ const styles = StyleSheet.create({
   },
   overView: {
     marginLeft:13,
-    marginTop:10
+    marginTop:10,
   },
   playButton:{
     marginLeft:10
   },
   playButtonBackground:{
-    marginTop:280,
+    marginTop:250,
     marginLeft:310,
     position: "absolute",
     borderRadius:10,
     elevation:10,
     height:40,
     width: 50,
-    backgroundColor:theme.colors.primary
+    backgroundColor:LigthTheme.colors.primary
   },
   overviewText:{
     fontSize: 20,
     fontWeight: 'bold',
+    color: colorScheme === 'dark' ? Darktheme.colors.black : LigthTheme.colors.black
   },
   overviewContent:{
     marginTop:10,
-    justifyContent:"flex-start"
+    justifyContent:"flex-start",
+    color: colorScheme === 'dark' ? Darktheme.colors.black : LigthTheme.colors.black
   },
   viewTitle:{
     position: "absolute",
@@ -229,23 +238,16 @@ const styles = StyleSheet.create({
     width: '100%', 
   },
   header: {
-    fontSize: 20,
-    color: theme.colors.white,
+    fontSize: 19,
+    color: LigthTheme.colors.white,
     fontWeight: 'bold',
     paddingVertical: 12,
   },
   line:{
-    backgroundColor:theme.colors.white,
+    backgroundColor:LigthTheme.colors.white,
     height:8,
     width:70,
   }
 })
 
 
-
-/*    <YoutubePlayer
-                height={300}
-                play={true}
-                videoId={MovieVideoKey.toString()}
-                />
-     */

@@ -2,19 +2,15 @@ import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView, TouchableO
 import React, { useEffect, useState } from 'react';
 import {ScreenHeader,TVShowPosterListItem } from '../components/index'
 import {TVShow, TVShowDetail}  from '../utils/Models/TvShow'
-import {
-  getPopularTVShowUrl,
-  getTopRatedTVShowUrl,
-  getMustWatchTVShowUrl,
-  getOnTheAirTVShowUrl
-} from "../api/url";
-
+import {getPopularTVShowUrl, getTopRatedTVShowUrl, getMustWatchTVShowUrl,getOnTheAirTVShowUrl } from "../api/url";
 import { ScreenNav} from '../utils/Models/ScreenNav'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native'
+import { Appearance } from 'react-native';
+import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 
+const colorScheme = Appearance.getColorScheme();
 type TvShowScreen = NativeStackNavigationProp<ScreenNav,"TvShowScreen">
-
 
 export default function TvShowScreen() {
   const navigation = useNavigation<TvShowScreen>();
@@ -111,9 +107,11 @@ export default function TvShowScreen() {
 }
 
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:  colorScheme === 'dark' ? Darktheme.colors.white : LigthTheme.colors.white,
   },
   screenHeader:{
     marginLeft: 20
@@ -123,6 +121,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 20,
     marginBottom: 5,
+    color: colorScheme === 'dark' ? Darktheme.colors.black : LigthTheme.colors.black
   }
 
 })

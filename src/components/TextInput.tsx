@@ -1,19 +1,19 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { TextInput as Input } from 'react-native-paper'
-import { theme } from '../utils/theme'
+import { LigthTheme } from '../utils/Theme/theme'
 
 export default function TextInput({ errorText, description, ...props }) {
   return (
     <View style={styles.container}>
       <Input
         style={styles.input}
-        selectionColor={theme.colors.primary}
-        outlineColor={theme.colors.primary}
-        activeOutlineColor ={theme.colors.secondary}
-        placeholderTextColor= {theme.colors.primary}
-        activeUnderlineColor = {theme.colors.primary}
-        underlineColorAndroid = {theme.colors.primary}
+        selectionColor={LigthTheme.colors.primary}
+        outlineColor={LigthTheme.colors.primary}
+        activeOutlineColor ={LigthTheme.colors.secondary}
+        placeholderTextColor= {LigthTheme.colors.primary}
+        activeUnderlineColor = {LigthTheme.colors.primary}
+        underlineColorAndroid = {LigthTheme.colors.primary}
         underlineColor="transparent"
         mode="outlined"
         {...props}
@@ -32,15 +32,19 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   input: {
-    backgroundColor: theme.colors.surface,
+    textDecorationColor: LigthTheme.colors.white, 
+    tintColor: LigthTheme.colors.white,
+    textShadowColor: LigthTheme.colors.white,
+    color:LigthTheme.colors.white, 
+    backgroundColor: LigthTheme.colors.input,
   },
   description: {
     fontSize: 13,
-    color: theme.colors.secondary,
+    color: LigthTheme.colors.secondary,
   },
   error: {
     fontSize: 13,
-    color: theme.colors.error,
+    color: LigthTheme.colors.error,
     paddingTop: 8,
   },
 })

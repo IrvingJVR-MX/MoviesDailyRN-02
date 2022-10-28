@@ -8,8 +8,12 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
 import { useDispatch } from 'react-redux';
 import { login, logout } from '../features/userSlice';
 import { app, getAuth, FacebookAuthProvider, signInWithCredential, signInWithEmailAndPassword, onAuthStateChanged } from '../utils/firebase';
+import { Appearance } from 'react-native';
+import {Darktheme,LigthTheme} from '../utils/Theme/theme'
+
 
 type LoginScreen = NativeStackNavigationProp<ScreenNav,"LogIn">
+const colorScheme = Appearance.getColorScheme();
 
 export default function LoginScreen() {
   const navigation = useNavigation<LoginScreen>();
@@ -106,13 +110,11 @@ export default function LoginScreen() {
       <Button mode="contained" logo="" text={"Login in "} onPress={onEmailLogin} />
       <Button mode="contained" logo="facebook" text={"Login with Facebook"} onPress={onFacebookLogin} />
       <View style={styles.row}>
-          <Text>Don’t have an account? </Text>
+          <Text style={styles.Text}>Don’t have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.link}>Sign up</Text>
           </TouchableOpacity>
         </View>
-
-   
     </KeyboardAvoidingView>
     
 
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:'center',
     alignItems:'center',
-    backgroundColor: '#fff'
+    backgroundColor:  colorScheme === 'dark' ? Darktheme.colors.login : LigthTheme.colors.login,
   },
   row: {
     flexDirection: 'row',
@@ -133,6 +135,10 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: 'bold',
     color: theme.colors.primary,
+
+  },
+  Text: {
+    color: colorScheme === 'dark' ? Darktheme.colors.white : LigthTheme.colors.white,
   },
 })
 

@@ -1,9 +1,11 @@
 import React from 'react'
 import { StyleSheet, View, Image, Text } from 'react-native'
-import {GenericString}  from '../../utils/Models/Generic'
+import {GenericString}  from '../utils/Models/Generic'
+import { Appearance } from 'react-native';
+import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 
-
-export default function CastListItem(info: GenericString) {
+const colorScheme = Appearance.getColorScheme();
+export default function ListItem(info: GenericString) {
   return(
         <View style={styles.item}>
           <Image
@@ -31,5 +33,6 @@ const styles = StyleSheet.create({
     width:100,
     flexGrow: 1,
     flex: 1,
+    color: colorScheme === 'dark' ? Darktheme.colors.black : LigthTheme.colors.black
 }
 })

@@ -7,16 +7,11 @@ import { KeyboardAvoidingView, StyleSheet} from "react-native"
 import {getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import {app} from '../../firebaseSetup';
 //REDUX
-import {
-  auth,
-  signInWithEmailAndPassword,
-} from '../utils/firebase';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/userSlice';
 
 //REDUX
-
-
+import {LigthTheme} from '../utils/Theme/theme'
 
 type SignUpScreen = NativeStackNavigationProp<ScreenNav,"SignUp">
 
@@ -106,7 +101,7 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:'center',
     alignItems:'center',
-    backgroundColor: '#fff'
+    backgroundColor: LigthTheme.colors.login
 
   }
 })

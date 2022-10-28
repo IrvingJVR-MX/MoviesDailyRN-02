@@ -6,10 +6,15 @@ import { getPopularMoviesUrl, getTopRatedMoviesUrl, getMustWatchMoviesUrl, getUp
 import { useNavigation } from '@react-navigation/native'
 import { ScreenNav} from '../utils/Models/ScreenNav'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Appearance } from 'react-native';
+import {Darktheme,LigthTheme} from '../utils/Theme/theme'
+
+const colorScheme = Appearance.getColorScheme();
 
 type MovieScreen = NativeStackNavigationProp<ScreenNav,"MovieScreen">
 
 export default  function MovieScreen() {
+
   const navigation = useNavigation<MovieScreen>();
 
   const [popularMovies, setPopularMovies] = useState<Movie>({tile: "", data:[]});
@@ -107,7 +112,7 @@ export default  function MovieScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor:  colorScheme === 'dark' ? Darktheme.colors.white : LigthTheme.colors.white,
   },
   screenHeader:{
     marginLeft: 20
@@ -117,6 +122,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 20,
     marginBottom: 5,
+    color: colorScheme === 'dark' ? Darktheme.colors.black : LigthTheme.colors.black
   }
 
 })
