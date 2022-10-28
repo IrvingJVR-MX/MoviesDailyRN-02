@@ -1,5 +1,5 @@
 export type TVShow = {
-    tile: string;
+    title: string;
     data: TVShowDetail[]
   }
   

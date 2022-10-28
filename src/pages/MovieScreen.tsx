@@ -8,6 +8,7 @@ import { ScreenNav} from '../utils/Models/ScreenNav'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
+import { request} from "../api/fetch";
 
 const colorScheme = Appearance.getColorScheme();
 
@@ -29,46 +30,50 @@ export default  function MovieScreen() {
   const [upcomingMovies, setupcomingMovies] = useState<Movie>({tile: "", data:[]});
   const upcomingMoviesUrl =  getUpcomingMoviesUrl(1)
 
-
+  async function getData(url: string, name: string){
+    const data = await request<MovieDetail[]>(url);
+    const movieDetails : MovieDetail[] = data
+    const movies: Movie = { tile: name, data: movieDetails }
+      switch(name) { 
+          case 'Popular': { 
+            setPopularMovies(movies)
+            break; 
+          } 
+          case 'Top Rated': { 
+            setTopRatedMovies(movies)
+            break; 
+          } 
+          case 'Coming soon': { 
+            setupcomingMovies(movies)
+            break; 
+          }  
+          case 'Must watch': { 
+            setMustWatchMovie(movies)
+            break; 
+          }  
+          default: {
+            break; 
+          } 
+        } 
+  }
 
   useEffect(() => {
-    fetch(popularMovieUrl)
-      .then((response) => response.json())
-      .then((data) =>{
-        const movieDetails : MovieDetail[] = data.results
-        const movies: Movie = { tile: 'Popular', data: movieDetails }
-        setPopularMovies(movies)
-      })
-      .catch((error) => console.error(error))
+    getData(popularMovieUrl,'Popular')
 
-      fetch(topRatedMoviesUrl)
-      .then((response) => response.json())
-      .then((data) =>{
-        const topRatedMovies : MovieDetail[] = data.results
-        const movies: Movie = { tile: 'Top Rated', data: topRatedMovies }
-        setTopRatedMovies(movies)
-      })
-      .catch((error) => console.error(error))
-
-      fetch(MustWatchMovieUrl)
-      .then((response) => response.json())
-      .then((data) =>{
-        const mustWatchMovies : MovieDetail[] = data.results
-        const movies: Movie = { tile: 'Must watch', data: mustWatchMovies }
-        setMustWatchMovie(movies)
-      })
-      .catch((error) => console.error(error))
-
-      fetch(upcomingMoviesUrl)
-      .then((response) => response.json())
-      .then((data) =>{
-        const upcomingMovies : MovieDetail[] = data.results
-        const movies: Movie = { tile: 'Coming soon', data: upcomingMovies }
-        setupcomingMovies(movies)
-      })
-      .catch((error) => console.error(error))
   }, []);
   
+  useEffect(() => {
+    getData(topRatedMoviesUrl,'Top Rated')
+}, []);
+
+  useEffect(() => {
+    getData(upcomingMoviesUrl,'Coming soon')
+}, []);
+
+  useEffect(() => {
+    getData(MustWatchMovieUrl,'Must watch')
+}, []);
+
   
   function onPress (Movie: MovieDetail) {
     navigation.navigate('MovieDetailScreen',{movie:Movie});

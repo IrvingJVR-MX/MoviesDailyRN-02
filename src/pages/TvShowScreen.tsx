@@ -8,69 +8,74 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native'
 import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
+import { request} from "../api/fetch";
 
 const colorScheme = Appearance.getColorScheme();
 type TvShowScreen = NativeStackNavigationProp<ScreenNav,"TvShowScreen">
 
+
 export default function TvShowScreen() {
   const navigation = useNavigation<TvShowScreen>();
 
-  const [popularTVShow, setPopularTVShow] = useState<TVShow>({tile: "", data:[]});
+  const [popularTVShow, setPopularTVShow] = useState<TVShow>({title: "", data:[]});
   const popularTVShowURL =  getPopularTVShowUrl(1)
 
-  const [topRatedTVShow, setTopRatedTVShow] = useState<TVShow>({tile: "", data:[]});
+  const [topRatedTVShow, setTopRatedTVShow] = useState<TVShow>({title: "", data:[]});
   const topRatedTVShowURL =  getTopRatedTVShowUrl(1)
 
-  const [mustWatchTVShow, setMustWatchTVShow] = useState<TVShow>({tile: "", data:[]});
+  const [mustWatchTVShow, setMustWatchTVShow] = useState<TVShow>({title: "", data:[]});
   const mustWatchTVShowURL =  getMustWatchTVShowUrl(1)
 
-  const [onTheAirTVShow, setOnTheAirTVShow] = useState<TVShow>({tile: "", data:[]});
+  const [onTheAirTVShow, setOnTheAirTVShow] = useState<TVShow>({title: "", data:[]});
   const onTheAirTVShowURL =  getOnTheAirTVShowUrl(1)
   
+  async function getData(url: string, name: string){
+    const data = await request<TVShowDetail[]>(url);
+    const tvShowDetails : TVShowDetail[] = data
+    const tvShow: TVShow = { title: name, data: tvShowDetails }
+      switch(name) { 
+          case 'Popular': { 
+            setPopularTVShow(tvShow)
+            break; 
+          } 
+          case 'Top Rated': { 
+            setTopRatedTVShow(tvShow)
+            break; 
+          } 
+          case 'Must Watch': { 
+            setMustWatchTVShow(tvShow)
+            break; 
+          }  
+          case 'On The Air': { 
+            setOnTheAirTVShow(tvShow)
+            break; 
+          }  
+          default: {
+            break; 
+          } 
+        } 
+  }
+
   useEffect(() => {
-    fetch(popularTVShowURL)
-      .then((response) => response.json())
-      .then((data) =>{
-        const tvShowDetails : TVShowDetail[] = data.results
-        const tvShow: TVShow = { tile: 'Popular', data: tvShowDetails }
-        setPopularTVShow(tvShow)
-      })
-      .catch((error) => console.error(error))
-
-      fetch(topRatedTVShowURL)
-      .then((response) => response.json())
-      .then((data) =>{
-        const tvShowDetails : TVShowDetail[] = data.results
-        const tvShow: TVShow = { tile: 'Top Rated', data: tvShowDetails }
-        setTopRatedTVShow(tvShow)
-      })
-      .catch((error) => console.error(error))
-
-      fetch(mustWatchTVShowURL)
-      .then((response) => response.json())
-      .then((data) =>{
-        const tvShowDetails : TVShowDetail[] = data.results
-        const tvShow: TVShow = { tile: 'Must Watch', data: tvShowDetails }
-        setMustWatchTVShow(tvShow)
-      })
-      .catch((error) => console.error(error))
-
-      fetch(onTheAirTVShowURL)
-      .then((response) => response.json())
-      .then((data) =>{
-        const tvShowDetails : TVShowDetail[] = data.results
-        const tvShow: TVShow = { tile: 'On The Air', data: tvShowDetails }
-        setOnTheAirTVShow(tvShow)
-      })
-      .catch((error) => console.error(error))
-
+    getData(popularTVShowURL,'Popular')
   }, []);
+
+  useEffect(() => {
+    getData(topRatedTVShowURL,'Top Rated')
+  }, []);
+
+  useEffect(() => {
+    getData(mustWatchTVShowURL,'Must Watch')
+  }, []);
+
+  useEffect(() => {
+    getData(onTheAirTVShowURL,'On The Air')
+}, []);
 
   function onPress (tvShowDetail: TVShowDetail) {
     navigation.navigate('TvShowDetailScreen',{tvShow:tvShowDetail});
   }
 
-  
   return (
   <View style={styles.container}>
         <SafeAreaView style={styles.container}>
@@ -83,7 +88,7 @@ export default function TvShowScreen() {
             sections={[popularTVShow, topRatedTVShow, mustWatchTVShow, onTheAirTVShow]}
             renderSectionHeader={({ section }) => (
               <>
-                <Text style={styles.sectionHeader}>{section.tile}</Text>
+                <Text style={styles.sectionHeader}>{section.title}</Text>
                 <FlatList
                   horizontal
                   data={section.data}
