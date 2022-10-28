@@ -1,14 +1,14 @@
 import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView, TouchableOpacity} from 'react-native'
 import React, { useEffect, useState } from 'react';
 import { ScreenHeader,MoviePosterListItem } from '../components/index'
-import {Movie, MovieDetail}  from '../utils/Models/Movie'
 import { getPopularMoviesUrl, getTopRatedMoviesUrl, getMustWatchMoviesUrl, getUpcomingMoviesUrl} from "../api/url";
 import { useNavigation } from '@react-navigation/native'
-import { ScreenNav} from '../utils/Models/ScreenNav'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 import { request} from "../api/fetch";
+import {Movie, MovieDetail, ScreenNav} from '../utils/Models/index'
+
 
 const colorScheme = Appearance.getColorScheme();
 

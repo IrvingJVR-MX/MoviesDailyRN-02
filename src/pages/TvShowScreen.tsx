@@ -1,14 +1,13 @@
 import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView, TouchableOpacity} from 'react-native'
 import React, { useEffect, useState } from 'react';
 import {ScreenHeader,TVShowPosterListItem } from '../components/index'
-import {TVShow, TVShowDetail}  from '../utils/Models/TvShow'
 import {getPopularTVShowUrl, getTopRatedTVShowUrl, getMustWatchTVShowUrl,getOnTheAirTVShowUrl } from "../api/url";
-import { ScreenNav} from '../utils/Models/ScreenNav'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native'
 import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 import { request} from "../api/fetch";
+import { TVShow, TVShowDetail, ScreenNav} from '../utils/Models/index'
 
 const colorScheme = Appearance.getColorScheme();
 type TvShowScreen = NativeStackNavigationProp<ScreenNav,"TvShowScreen">

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Image, Text } from 'react-native'
-import {GenericString}  from '../utils/Models/Generic'
+import {GenericString}  from '../utils/Models/index'
 import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 

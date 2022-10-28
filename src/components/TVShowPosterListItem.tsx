@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Image } from 'react-native'
-import {TVShowDetail}  from '../utils/Models/TvShow'
+import {TVShowDetail}  from '../utils/Models/index'
 
 export default function TVShowPosterListItem(photoPath: TVShowDetail) {
   return(

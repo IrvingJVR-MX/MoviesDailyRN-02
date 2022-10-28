@@ -6,11 +6,8 @@ import { useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, StyleSheet} from "react-native"
 import {getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import {app} from '../../firebaseSetup';
-//REDUX
 import { useDispatch } from 'react-redux';
 import { login } from '../features/userSlice';
-
-//REDUX
 import {LigthTheme} from '../utils/Theme/theme'
 
 type SignUpScreen = NativeStackNavigationProp<ScreenNav,"SignUp">

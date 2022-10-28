@@ -6,22 +6,21 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react'
 import {ScreenNav} from '../utils/index'
-import { useDispatch, useSelector } from 'react-redux';
-import { logout, selectUser } from '../features/userSlice';
+import { useDispatch } from 'react-redux';
+import { logout } from '../features/userSlice';
 import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
+import { useAppSelector } from "../app/hooks"
 
 const colorScheme = Appearance.getColorScheme();
 
 type ProfileScreen = NativeStackNavigationProp<ScreenNav, "ProfileScreen">
-  //var user = useAppSelector(state => state.user)
-  import { useAppSelector } from "../app/hooks"
 
 export default function ProfileScreen () {
+    var user = useAppSelector(state => state.user)
     const navigation = useNavigation<ProfileScreen>();
     const auth = getAuth(app);
     const dispatch = useDispatch();
-
     const onSignOut = () => {
         signOut(auth)
         .then( () => {
@@ -32,6 +31,7 @@ export default function ProfileScreen () {
       }
   return (
     <View style={styles.container}>
+      <Text>{user.email}</Text>
       <Button mode="contained" logo="" text={"Log out"} onPress={onSignOut} />
     </View>
   )

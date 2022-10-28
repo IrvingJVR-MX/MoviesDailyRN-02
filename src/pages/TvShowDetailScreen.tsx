@@ -1,20 +1,15 @@
-import { StyleSheet, View,FlatList, Text, TouchableOpacity ,SectionList, ScrollView ,Image, SafeAreaView} from 'react-native'
+import { StyleSheet, View,FlatList, Text, TouchableOpacity ,SectionList, Appearance ,Image, SafeAreaView} from 'react-native'
 import React, { useEffect, useState } from 'react';
-import {TVShow, TVShowDetail} from '../utils/Models/TvShow'
 import {Rating} from 'react-native-rating-component';
 import { getTvShowCreditUrl, getTvShowVideoUrl,getTvShowRecommendationsUrl,getTvShowDetailUrl} from "../api/url";
 import Modal from "react-native-modal";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {TvShowDetail} from '../utils/Models/TvshowDetail'
-import { GenericPhotoPath, GenericString}  from '../utils/Models/Generic'
 import {CastListItem } from '../components/index'
-import { CrewCastDetail} from '../utils/Models/Cast'
-import {Recommendation} from '../utils/Models/Recommendation'
-import {Trailer}  from '../utils/Models/Trailer'
 import { request, requestData} from "../api/fetch";
-import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 import YoutubePlayer from "react-native-youtube-iframe";
+import { CrewCastDetail, TvShowDetail, Recommendation, GenericPhotoPath,GenericString, Trailer, TVShowDetail} from '../utils/Models/index'
+
 
 const colorScheme = Appearance.getColorScheme();
 export default  function TvShowDetailScreen({ route }) {

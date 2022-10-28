@@ -1,17 +1,12 @@
-import { StyleSheet, View,FlatList, Text, TouchableOpacity ,SectionList ,Image, SafeAreaView} from 'react-native'
+import { StyleSheet, View,FlatList, Text, TouchableOpacity ,SectionList ,Image, SafeAreaView, Appearance} from 'react-native'
 import React, { useEffect, useState } from 'react';
-import { GenericPhotoPath,GenericString}  from '../utils/Models/Generic'
-import {Recommendation} from '../utils/Models/Recommendation'
-import {MovieDetail} from '../utils/Models/Movie'
-import { CrewCastDetail} from '../utils/Models/Cast'
-import {Trailer}  from '../utils/Models/Trailer'
+import { CrewCastDetail, MovieDetail, Recommendation, GenericPhotoPath,GenericString, Trailer} from '../utils/Models/index'
 import {Rating} from 'react-native-rating-component';
 import { getMovieCreditUrl, getMovieVideoUrl, getMovieRecommendationsUrl} from "../api/url";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {CastListItem } from '../components/index'
 import Modal from "react-native-modal";
 import { request, requestData} from "../api/fetch";
-import { Appearance } from 'react-native';
 import {Darktheme,LigthTheme} from '../utils/Theme/theme'
 import YoutubePlayer from "react-native-youtube-iframe";
 
