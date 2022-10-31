@@ -20,7 +20,6 @@ export default function LoginScreen() {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const auth = getAuth(app);
-///REDUX
   const dispatch = useDispatch();
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
